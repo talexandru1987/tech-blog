@@ -1,0 +1,24 @@
+{{#if isLoggedIn }}
+  {{> privateNavBar }}
+{{else}}
+  {{> publicNavBar }}
+{{/if}}
+
+<main class="container">
+  <section class="jumbotron text-center">
+    <h1 class="display-4 text-uppercase">Codify</h1>
+    <p class="lead">A one stop shop to all your music tastes...</p>
+    <hr class="my-4" />
+    <p>Why not start your music journey today!!</p>
+    {{#unless isLoggedIn}}
+      <a class="btn btn-primary btn-lg" href="/login" role="button">Login</a>
+    {{/unless}}
+  </section>
+
+  <section>
+    <h2 class="text-center">Playlists</h2>
+    <hr />
+
+   
+  </section>
+</main>
