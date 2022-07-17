@@ -8,7 +8,7 @@ class User extends Model {
   getUser() {
     return {
       id: this.id,
-      userName: this.userName,
+      username: this.username,
     };
   }
 
@@ -25,12 +25,9 @@ const schema = {
     autoIncrement: true,
     allowNull: false,
   },
-  userName: {
+  username: {
     type: DataTypes.STRING,
     allowNull: false,
-    validate: {
-      isEmail: true,
-    },
   },
   password: {
     type: DataTypes.STRING,

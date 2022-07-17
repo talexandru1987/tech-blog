@@ -1,20 +1,17 @@
 const { User } = require("../models");
 
 const userData = [
-  {
-    userName: "tAlex",
-    password: "abcd123",
-  },
-  {
-    userName: "tSmith",
-    password: "abcd123",
-  },
-  {
-    userName: "jSmith",
-    password: "abcd1234",
-  },
+  { username: "tAlex", password: "abcd123" },
+  { username: "tSmith", password: "abcd123" },
+  { username: "jSmith", password: "abcd1234" },
 ];
 
-const seedUUsers = () => User.bulkCreate(userData);
+const seedUsers = async () => {
+  const promises = userData.map((user) => User.create(user));
 
-module.exports = seedUUsers;
+  await Promise.all(promises);
+
+  console.log("Successfully seeded users");
+};
+
+module.exports = seedUsers;

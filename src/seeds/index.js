@@ -4,14 +4,14 @@ const seedUsers = require("./User");
 const sequelize = require("../config/connection");
 
 const seedAll = async () => {
-  await sequelize.sync({ force: true });
+  await sequelize.sync({ force: false });
   console.log("\n----- DATABASE SYNCED -----\n");
-
-  await seedBlogs();
-  console.log("\n-----  BLOGS SEEDED -----\n");
 
   await seedUsers();
   console.log("\n----- USERS SEEDED -----\n");
+
+  await seedBlogs();
+  console.log("\n-----  BLOGS SEEDED -----\n");
 
   process.exit(0);
 };
