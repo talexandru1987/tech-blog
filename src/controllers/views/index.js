@@ -39,8 +39,13 @@ const renderSignupPage = (req, res) => {
   return res.render("signup");
 };
 
+const renderDashboardPage = (req, res) => {
+  return res.render("dashboard");
+};
+
 module.exports = {
   renderHomePage,
   renderLoginPage,
   renderSignupPage,
+  renderDashboardPage,
 };

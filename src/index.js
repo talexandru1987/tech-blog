@@ -10,6 +10,10 @@ const helpers = require("./helpers");
 
 const PORT = process.env.PORT || 4000;
 
+const hbs = exphbs.create({ helpers });
+
+const app = express();
+
 const SequelizeStore = connectSessionSequelize(session.Store);
 
 const sessionOptions = {
@@ -26,10 +30,6 @@ const sessionOptions = {
     db: connection,
   }),
 };
-
-const hbs = exphbs.create({ helpers });
-
-const app = express();
 
 app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");

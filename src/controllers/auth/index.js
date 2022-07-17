@@ -2,12 +2,12 @@ const { User } = require("../../models");
 
 const login = async (req, res) => {
   try {
-    const { userName, password } = req.body;
+    const { username, password } = req.body;
 
-    const user = await User.findOne({ where: { userName } });
+    const user = await User.findOne({ where: { username } });
 
     if (!user) {
-      console.log(`[ERROR]: Failed to login | No user found with user: ${userName}`);
+      console.log(`[ERROR]: Failed to login | No user found with user: ${username}`);
 
       return res.status(500).json({ success: false });
     }
@@ -34,9 +34,9 @@ const login = async (req, res) => {
 
 const signup = async (req, res) => {
   try {
-    const { userName, password } = req.body;
+    const { username, password } = req.body;
 
-    const user = await User.findOne({ where: { userName } });
+    const user = await User.findOne({ where: { username } });
 
     if (user) {
       console.log(`[ERROR]: Failed to create user | Account already exists with user: ${userName}`);
@@ -45,7 +45,7 @@ const signup = async (req, res) => {
     }
 
     await User.create({
-      userName,
+      username,
       password,
     });
 

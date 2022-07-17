@@ -5,18 +5,18 @@ const logoutBtn = $("#logout-btn");
 const handleSignup = async (event) => {
   event.preventDefault();
 
-  const userName = $("#userName").val();
+  const username = $("#userName").val();
   const password = $("#password").val();
   const confirmPassword = $("#confirmPassword").val();
-  // const firstName = $("#firstName").val();
-  // const lastName = $("#lastName").val();
-  // const profileImageUrl = $("#profileImageUrl").val();
+  console.log(username);
+  console.log(password);
+  console.log(confirmPassword);
 
-  if (userName && password && confirmPassword) {
+  if (username && password && confirmPassword) {
     if (password === confirmPassword) {
       try {
         const payload = {
-          userName,
+          username,
           password,
           confirmPassword,
         };
@@ -50,13 +50,15 @@ const handleSignup = async (event) => {
 const handleLogin = async (event) => {
   event.preventDefault();
 
-  const email = $("#email").val();
+  const username = $("#username").val();
   const password = $("#password").val();
+  console.log(username);
+  console.log(password);
 
-  if (email && password) {
+  if (username && password) {
     try {
       const payload = {
-        email,
+        username,
         password,
       };
 
@@ -84,6 +86,7 @@ const handleLogin = async (event) => {
 };
 
 const handleLogout = async () => {
+  console.log("logout");
   try {
     const response = await fetch("/auth/logout", {
       method: "POST",
