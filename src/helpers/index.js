@@ -6,7 +6,7 @@ const isEqualTo = (data, equalToString) => {
 
 const formatDate = (date) => {
   const formattedDate = dateFns.format(new Date(date), "do MMMM, yyyy");
-  return `Created: ${formattedDate}`;
+  return formattedDate;
 };
 
 module.exports = {

@@ -2,20 +2,27 @@
   {{> privateNavBar }}
 
 <main class="container">
-  <section class="jumbotron text-center">
-    <h1 class="display-4 text-uppercase">Codify</h1>
-    <p class="lead">A one stop shop to all your music tastes...</p>
-    <hr class="my-4" />
-    <p>Why not start your music journey today!!</p>
-    {{#unless isLoggedIn}}
-      <a class="btn btn-primary btn-lg" href="/login" role="button">Login</a>
-    {{/unless}}
-  </section>
+    <section class="jumbotron text-center">
+    <h1 class="display-4 text-uppercase">Welcome to the Tech Blog. Please share your tech ideas in a post</h1>
+    
+    <!-- single post -->
+    <div class="list-group">
+          <div class="list-group-item list-group-item-action" aria-current="true">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">Bob Smith</h5>
+              <small>Posted on 25th June, 2020</small>
+            </div>
+            <p class="mb-1">Great playlist, would definitely recommend!</p>
 
-  <section>
-    <h2 class="text-center">Dashboard</h2>
-    <hr />
+            {{#if isLoggedIn }}
+            <div class="d-flex justify-content-between">
+              <button type="button" class="btn btn-primary">Edit</button>
+              <button type="button" class="btn btn-danger">Delete</button>
+            </div>
+            {{/if}}     
+          </div>
+      </div>
 
-   
   </section>
+  {{> addPost }}
 </main>

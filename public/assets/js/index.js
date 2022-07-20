@@ -1,6 +1,7 @@
 const signupForm = $("#signup-form");
 const loginForm = $("#login-form");
 const logoutBtn = $("#logout-btn");
+const addPost = $("#add-post-form");
 
 const handleSignup = async (event) => {
   event.preventDefault();
@@ -103,7 +104,27 @@ const handleLogout = async () => {
   }
 };
 
-// add the vent listeners
+const handleAddPost = async (event) => {
+  event.preventDefault();
+
+  const id = parseInt($("#add-post-btn").attr("data-id"));
+  const title = $("#title-input").val().trim();
+  const postText = $("#text-input").val().trim();
+
+  const postContent = { title, postText, id };
+
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    redirect: "follow",
+    body: JSON.stringify(postContent),
+  };
+};
+
+// add the event listeners
 signupForm.submit(handleSignup);
 loginForm.submit(handleLogin);
 logoutBtn.click(handleLogout);
+addPost.click(handleAddPost);

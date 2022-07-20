@@ -6,19 +6,31 @@
 
 <main class="container">
   <section class="jumbotron text-center">
-    <h1 class="display-4 text-uppercase">Codify</h1>
-    <p class="lead">A one stop shop to all your music tastes...</p>
-    <hr class="my-4" />
-    <p>Why not start your music journey today!!</p>
-    {{#unless isLoggedIn}}
-      <a class="btn btn-primary btn-lg" href="/login" role="button">Login</a>
-    {{/unless}}
-  </section>
+    <h1 class="display-4 text-uppercase">Welcome to the Tech Blog. Please share your tech ideas in a post  </h1>
+    {{#each data}}
+    <!-- single post -->
+    <div class="list-group">
+          <div class="list-group-item list-group-item-action" aria-current="true">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">{{user.username}} </h5>
+              <small>{{formatDate updatedAt}}</small>
+            </div>
+            <p class="mb-1">{{description}}</p>
 
-  <section>
-    <h2 class="text-center">Playlists</h2>
-    <hr />
-
+            {{#if isLoggedIn }}
+            <div class="d-flex justify-content-between">
+              <button type="button" class="btn btn-primary">Edit </button>
+              <button type="button" class="btn btn-danger">Delete</button>
+            </div>
+            {{/if}}     
+          </div>
+      </div>
+     {{/each}}
    
   </section>
+
+  {{#if isLoggedIn }}
+  {{> addPost }}
+  {{/if}} 
+
 </main>

@@ -1,34 +1,29 @@
+const { id } = require("date-fns/locale");
 const path = require("path");
 
 const { User, Blog } = require("../../models");
 
 const renderHomePage = async (req, res) => {
-  // const playlistsFromDb = await Playlist.findAll({
+  const allBlogs = await Blog.findAll({
+    include: [
+      {
+        model: User,
+        attributes: ["username"],
+      },
+    ],
+    attributes: ["id", "title", "description", "userId", "updatedAt"],
+  });
 
-  //   include: [
-  //     {
-  //       model: User,
-  //       attributes: ["firstName", "lastName"],
-  //     },
-  //     {
-  //       model: PlaylistSong,
-  //       as: "songs",
-  //     },
-  //   ],
-  //   attributes: ["id", "title", "imageUrl", "createdAt"],
-  // });
+  let blogList = allBlogs.map((blog) => {
+    return blog.get({ plain: true });
+  });
 
-  // const playlists = playlistsFromDb.map((playlist) => {
-  //   return playlist.get({ plain: true });
-  // });
+  if (req.session.isLoggedIn) {
+    blogList.key = req.session.user.id;
+  }
+  console.log(blogList);
 
-  // return res.render("home", {
-  //   isLoggedIn: req.session.isLoggedIn,
-  //   currentPage: "home",
-  //   playlists,
-  // });
-
-  return res.render("home");
+  return res.render("home", { isLoggedIn: req.session.isLoggedIn, data: blogList });
 };
 
 const renderLoginPage = (req, res) => {
