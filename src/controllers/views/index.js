@@ -19,11 +19,17 @@ const renderHomePage = async (req, res) => {
   });
 
   if (req.session.isLoggedIn) {
-    blogList.key = req.session.user.id;
+    return res.render("home", {
+      isLoggedIn: req.session.isLoggedIn,
+      data: blogList,
+      key: req.session.user.id,
+    });
+  } else {
+    return res.render("home", {
+      isLoggedIn: req.session.isLoggedIn,
+      data: blogList,
+    });
   }
-  console.log(blogList);
-
-  return res.render("home", { isLoggedIn: req.session.isLoggedIn, data: blogList });
 };
 
 const renderLoginPage = (req, res) => {
@@ -34,8 +40,49 @@ const renderSignupPage = (req, res) => {
   return res.render("signup");
 };
 
-const renderDashboardPage = (req, res) => {
-  return res.render("dashboard");
+const renderDashboardPage = async (req, res) => {
+  const userBlogs = await Blog.findAll({
+    include: [
+      {
+        model: User,
+        attributes: ["username"],
+      },
+    ],
+    where: {
+      userId: req.session.user.id,
+    },
+    attributes: ["id", "title", "description", "userId", "updatedAt"],
+  });
+
+  let userList = userBlogs.map((blog) => {
+    return blog.get({ plain: true });
+  });
+
+  return res.render("dashboard", {
+    data: userList,
+    key: req.session.user.id,
+  });
+};
+
+const renderPostUpdatePage = async (req, res) => {
+  try {
+    const { isLoggedIn } = req.session;
+    const user = req.session.user;
+    const { id } = req.params;
+    const post = await dataProvider.getFullPost(id);
+    const viewModel = post.get({ plain: true });
+
+    return res.render("editPost", {
+      isLoggedIn,
+      data: viewModel,
+      user: user,
+    });
+  } catch (error) {
+    console.log(`${error.message}`);
+    res.render("error");
+  }
+
+  // return res.render("editPost");
 };
 
 module.exports = {
@@ -43,4 +90,5 @@ module.exports = {
   renderLoginPage,
   renderSignupPage,
   renderDashboardPage,
+  renderPostUpdatePage,
 };

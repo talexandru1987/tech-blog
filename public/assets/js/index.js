@@ -2,6 +2,7 @@ const signupForm = $("#signup-form");
 const loginForm = $("#login-form");
 const logoutBtn = $("#logout-btn");
 const addPost = $("#add-post-form");
+const changePost = $("#post-container");
 
 const handleSignup = async (event) => {
   event.preventDefault();
@@ -53,8 +54,6 @@ const handleLogin = async (event) => {
 
   const username = $("#username").val();
   const password = $("#password").val();
-  console.log(username);
-  console.log(password);
 
   if (username && password) {
     try {
@@ -107,11 +106,11 @@ const handleLogout = async () => {
 const handleAddPost = async (event) => {
   event.preventDefault();
 
-  const id = parseInt($("#add-post-btn").attr("data-id"));
+  const userId = parseInt($("#add-post-btn").attr("data-id"));
   const title = $("#title-input").val().trim();
-  const postText = $("#text-input").val().trim();
+  const description = $("#text-input").val().trim();
 
-  const postContent = { title, postText, id };
+  const postContent = { title, description, userId };
 
   const options = {
     method: "POST",
@@ -121,10 +120,57 @@ const handleAddPost = async (event) => {
     redirect: "follow",
     body: JSON.stringify(postContent),
   };
+
+  const response = await fetch("/api/posts", options);
+
+  if (response.status !== 200) {
+    console.error("Post creation failed");
+    $("#post-container").remove();
+    $("#add-post-container")
+      .append(`<div class="alert alert-danger d-flex flex-column align-items-center" id = "post-container">
+    <h4 class="alert-heading text-center"><i class="fa-solid fa-close"></i> Sorry, your new post could not be created!</h4></div>`);
+  } else {
+    $("#post-container").remove();
+    $("#add-post-container")
+      .append(`<div class="alert alert-secondary d-flex flex-column align-items-center" id = "post-container">
+    <h4 class="alert-heading text-center"><i class="fa-solid fa-check"></i> Your new post has been created successfully!</h4></div>`);
+  }
+};
+
+const handlePostChange = async (event) => {
+  let response;
+
+  if (event.target.id === "edit-btn") {
+    const id = event.target.getAttribute("data-postId");
+    window.location.replace(`/update/${id}`);
+  } else if (event.target.id === "delete-btn") {
+    const confirmed = confirm(
+      "Are you sur you want to delete this comment? This cannot be undone."
+    );
+
+    if (confirmed) {
+      const options = {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        redirect: "follow",
+      };
+      const id = event.target.getAttribute("data-postId");
+      response = await fetch(`/api/posts/${id}`, options);
+
+      if (response.status !== 200) {
+        console.error("Delete failed");
+      } else {
+        console.error("Delete Success");
+      }
+    }
+  }
 };
 
 // add the event listeners
 signupForm.submit(handleSignup);
 loginForm.submit(handleLogin);
 logoutBtn.click(handleLogout);
-addPost.click(handleAddPost);
+addPost.submit(handleAddPost);
+changePost.click(handlePostChange);

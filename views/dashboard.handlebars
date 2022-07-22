@@ -3,26 +3,31 @@
 
 <main class="container">
     <section class="jumbotron text-center">
-    <h1 class="display-4 text-uppercase">Welcome to the Tech Blog. Please share your tech ideas in a post</h1>
+    <h1 class="display-4 text-uppercase">Please find you posts bellow</h1>
     
-    <!-- single post -->
-    <div class="list-group">
-          <div class="list-group-item list-group-item-action" aria-current="true">
-            <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">Bob Smith</h5>
-              <small>Posted on 25th June, 2020</small>
-            </div>
-            <p class="mb-1">Great playlist, would definitely recommend!</p>
 
-            {{#if isLoggedIn }}
-            <div class="d-flex justify-content-between">
-              <button type="button" class="btn btn-primary">Edit</button>
-              <button type="button" class="btn btn-danger">Delete</button>
-            </div>
-            {{/if}}     
-          </div>
+    <div class="list-group">
+    <div id="post-container">
+    {{#each data}}
+      <!-- single post -->
+     <div class="list-group">
+  <div class="list-group-item list-group-item-action" aria-current="true">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">{{user.username}} </h5>
+      <small>{{formatDate updatedAt}}</small>
+    </div>
+    <p class="mb-1">{{description}}</p>
+      <div class="d-flex justify-content-between">
+        <button type="button" class="btn btn-primary" id="edit-btn" data-postId ="{{id}}">Edit </button>
+        <button type="button" class="btn btn-danger" id="delete-btn" data-postId ="{{id}}">Delete</button>
+      </div>
+  </div>
+      </div>
+     {{/each}}
+    </div>           
+          
       </div>
 
   </section>
-  {{> addPost }}
+  {{> addPost parent=../this }}
 </main>
