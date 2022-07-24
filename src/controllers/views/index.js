@@ -1,7 +1,7 @@
 const { id } = require("date-fns/locale");
 const path = require("path");
 
-const { User, Blog } = require("../../models");
+const { User, Blog, Comment } = require("../../models");
 
 const renderHomePage = async (req, res) => {
   const allBlogs = await Blog.findAll({
@@ -13,6 +13,16 @@ const renderHomePage = async (req, res) => {
     ],
     attributes: ["id", "title", "description", "userId", "updatedAt"],
   });
+
+  // const allComments = await Comment.findAll({
+  //   include: [
+  //     {
+  //       model: User,
+  //       attributes: ["username"],
+  //     },
+  //   ],
+  //   attributes: ["id", "title", "description", "userId", "updatedAt"],
+  // });
 
   let blogList = allBlogs.map((blog) => {
     return blog.get({ plain: true });
