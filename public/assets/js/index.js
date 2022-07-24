@@ -3,6 +3,7 @@ const loginForm = $("#login-form");
 const logoutBtn = $("#logout-btn");
 const addPost = $("#add-post-form");
 const changePost = $("#post-container");
+const updatePost = $("#update-post-form");
 
 const handleSignup = async (event) => {
   event.preventDefault();
@@ -162,9 +163,45 @@ const handlePostChange = async (event) => {
       if (response.status !== 200) {
         console.error("Delete failed");
       } else {
+        location.reload();
         console.error("Delete Success");
       }
     }
+  }
+};
+
+const handlePostUpdate = async (event) => {
+  event.preventDefault();
+
+  const postId = parseInt($("#update-post-btn").attr("data-id"));
+  const title = $("#title-input").val().trim();
+  const description = $("#text-input").val().trim();
+
+  const postContent = { title, description, postId };
+
+  const options = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    redirect: "follow",
+    body: JSON.stringify(postContent),
+  };
+  console.log(options);
+  const response = await fetch("/api/posts", options);
+
+  if (response.status !== 200) {
+    location.reload();
+    console.error("Post creation failed");
+    $("#post-container").remove();
+    $("#add-post-container")
+      .append(`<div class="alert alert-danger d-flex flex-column align-items-center" id = "post-container">
+    <h4 class="alert-heading text-center"><i class="fa-solid fa-close"></i> Sorry, your post could not be updated!</h4></div>`);
+  } else {
+    $("#post-container").remove();
+    $("#add-post-container")
+      .append(`<div class="alert alert-secondary d-flex flex-column align-items-center" id = "post-container">
+    <h4 class="alert-heading text-center"><i class="fa-solid fa-check"></i> Your post has been updated successfully!</h4></div>`);
   }
 };
 
@@ -174,3 +211,4 @@ loginForm.submit(handleLogin);
 logoutBtn.click(handleLogout);
 addPost.submit(handleAddPost);
 changePost.click(handlePostChange);
+updatePost.click(handlePostUpdate);

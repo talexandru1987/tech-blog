@@ -69,20 +69,22 @@ const renderPostUpdatePage = async (req, res) => {
     const { isLoggedIn } = req.session;
     const user = req.session.user;
     const { id } = req.params;
-    const post = await dataProvider.getFullPost(id);
-    const viewModel = post.get({ plain: true });
+    const post = await Blog.findByPk(id);
 
+    if (!post) {
+      return res.render("Post not  found!");
+    }
+    const viewModel = post.get({ plain: true });
     return res.render("editPost", {
       isLoggedIn,
       data: viewModel,
-      user: user,
+      user,
+      id,
     });
   } catch (error) {
     console.log(`${error.message}`);
     res.render("error");
   }
-
-  // return res.render("editPost");
 };
 
 module.exports = {

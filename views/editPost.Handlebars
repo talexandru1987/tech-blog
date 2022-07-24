@@ -1,20 +1,21 @@
+{{> privateNavBar }}
 <section class="mt-4 border p-3 rounded-2 bg-light">
-  <h2 class="text-center">Please use the bellow form to update your post</h2>
+  <h2 class="text-center"> Hi {{user.username}}.Please use the form bellow to update your post</h2>
   <hr />
-  <form class="mt-4" id="add-post-form">
+  <form class="mt-4" id="update-post-form">
     <div class="mb-3">
       <textarea
         type="text"
         class="form-control"
         id="title-input"
         placeholder="Enter your post title"
-      ></textarea>
+      >{{data.title}}</textarea>
       <textarea
         type="text"
         class="form-control"
         id="text-input"
         placeholder="Enter your post content..."
-      ></textarea>
+      >{{data.description}}</textarea>
     </div>
     <div class="mb-3 text-center text-danger error-text" id="add-post-container">
     </div>
@@ -22,8 +23,8 @@
       <button
         type="submit"
         class="btn btn-primary"
-        id="add-post-btn"
-        data-id={{key}}
+        id="update-post-btn"
+        data-id={{id}}
       >Submit</button>
     </div>
   </form>
