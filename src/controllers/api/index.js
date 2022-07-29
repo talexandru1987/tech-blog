@@ -56,13 +56,10 @@ const createPost = async (req, res) => {
 };
 
 const createComment = async (req, res) => {
-  console.log("Creating comment");
-
   try {
     const { commentText, postId } = req.body;
     const userId = req.session.user.id;
 
-    console.log(userId);
     if (!commentText) {
       return res.status(400).json({ message: "Unable to create comment" });
     }
@@ -97,10 +94,29 @@ const updateCommentById = async (req, res) => {
   }
 };
 
+const deleteCommentById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const comment = await Comment.findByPk(id);
+
+    if (!comment) {
+      return res.status(404).json({ message: "Comment not found" });
+    }
+
+    await Comment.destroy({ where: { id } });
+    return res.status(200).json({ message: "Comment deleted" });
+  } catch (error) {
+    console.error(`ERROR | ${error.message}`);
+    return res.status(500).json(error);
+  }
+};
+
 module.exports = {
   updatePostById,
   deletePostById,
   createPost,
   createComment,
   updateCommentById,
+  deleteCommentById,
 };

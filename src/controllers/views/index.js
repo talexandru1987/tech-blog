@@ -116,7 +116,6 @@ const renderPostUpdatePage = async (req, res) => {
 };
 
 const renderCommentUpdatePage = async (req, res) => {
-  console.log("comment update");
   try {
     const { isLoggedIn } = req.session;
     const user = req.session.user;

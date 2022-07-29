@@ -143,9 +143,7 @@ const handlePostChange = async (event) => {
     const id = event.target.getAttribute("data-postId");
     window.location.replace(`/update/${id}`);
   } else if (event.target.id === "delete-btn") {
-    const confirmed = confirm(
-      "Are you sur you want to delete this comment? This cannot be undone."
-    );
+    const confirmed = confirm("Are you sur you want to delete this post? This cannot be undone.");
 
     if (confirmed) {
       const options = {
@@ -189,6 +187,29 @@ const handlePostChange = async (event) => {
   } else if (event.target.id === "edit-comment-btn") {
     const id = event.target.getAttribute("data-commentId");
     window.location.replace(`/comment/${id}`);
+  } else if (event.target.id === "delete-comment-btn") {
+    const confirmed = confirm(
+      "Are you sur you want to delete this comment? This cannot be undone."
+    );
+
+    if (confirmed) {
+      const options = {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        redirect: "follow",
+      };
+      const id = event.target.getAttribute("data-commentId");
+      response = await fetch(`/api/comments/${id}`, options);
+
+      if (response.status !== 200) {
+        console.error("Delete failed");
+      } else {
+        location.reload();
+        console.error("Delete Success");
+      }
+    }
   }
 };
 
