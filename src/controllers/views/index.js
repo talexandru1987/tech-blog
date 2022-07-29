@@ -46,8 +46,6 @@ const renderHomePage = async (req, res) => {
     return blog;
   });
 
-  console.log(commentList);
-
   if (req.session.isLoggedIn) {
     return res.render("home", {
       isLoggedIn: req.session.isLoggedIn,

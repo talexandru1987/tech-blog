@@ -16,14 +16,26 @@
 
               </div>
             </div>
-            {{#if ../isLoggedIn}}
-       {{#if (isEqualTo  ../key userId)}}
-      <div class="d-flex justify-content-between">
-        <button type="button" class="btn btn-primary" id="edit-btn" data-postId ="">Edit </button>
-        <button type="button" class="btn btn-danger" id="delete-btn" data-postId ="">Delete</button>
-      </div>
-      {{/if}}
-      {{/if}}
+
+            {{#if parent.isLoggedIn}}
+              {{#if (isEqualTo parent.key userId)}}
+                <div class="d-flex justify-content-between">
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    id="edit-comment-btn"
+                    data-postId=""
+                  >Edit
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    id="delete-comment-btn"
+                    data-postId=""
+                  >Delete</button>
+                </div>
+              {{/if}}
+            {{/if}}
           </div>
         </div>
 

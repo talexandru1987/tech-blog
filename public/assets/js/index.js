@@ -11,9 +11,6 @@ const handleSignup = async (event) => {
   const username = $("#userName").val();
   const password = $("#password").val();
   const confirmPassword = $("#confirmPassword").val();
-  console.log(username);
-  console.log(password);
-  console.log(confirmPassword);
 
   if (username && password && confirmPassword) {
     if (password === confirmPassword) {
@@ -87,7 +84,6 @@ const handleLogin = async (event) => {
 };
 
 const handleLogout = async () => {
-  console.log("logout");
   try {
     const response = await fetch("/auth/logout", {
       method: "POST",
@@ -139,6 +135,7 @@ const handleAddPost = async (event) => {
 };
 
 const handlePostChange = async (event) => {
+  event.preventDefault();
   let response;
 
   if (event.target.id === "edit-btn") {
@@ -167,6 +164,27 @@ const handlePostChange = async (event) => {
         console.error("Delete Success");
       }
     }
+  } else if (event.target.id === "add-comment-btn") {
+    const postId = parseInt(event.target.getAttribute("data-id"));
+    const commentText = $(`#add-comment-input-${postId}`).val().trim();
+    const postContent = { commentText, postId };
+
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      redirect: "follow",
+      body: JSON.stringify(postContent),
+    };
+
+    const response = await fetch("/api/comments", options);
+
+    if (response.status !== 200) {
+      console.error("Post creation failed");
+    } else {
+      location.reload();
+    }
   }
 };
 
@@ -187,7 +205,7 @@ const handlePostUpdate = async (event) => {
     redirect: "follow",
     body: JSON.stringify(postContent),
   };
-  console.log(options);
+
   const response = await fetch("/api/posts", options);
 
   if (response.status !== 200) {
