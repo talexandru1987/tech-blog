@@ -14,30 +14,50 @@ const renderHomePage = async (req, res) => {
     attributes: ["id", "title", "description", "userId", "updatedAt"],
   });
 
-  // const allComments = await Comment.findAll({
-  //   include: [
-  //     {
-  //       model: User,
-  //       attributes: ["username"],
-  //     },
-  //   ],
-  //   attributes: ["id", "title", "description", "userId", "updatedAt"],
-  // });
+  const allComments = await Comment.findAll({
+    include: [
+      {
+        model: User,
+        attributes: ["username"],
+      },
+    ],
+    attributes: ["id", "commentText", "postId", "userId", "updatedAt"],
+  });
+
+  let commentList = allComments.map((comment) => {
+    return comment.get({ plain: true });
+  });
 
   let blogList = allBlogs.map((blog) => {
     return blog.get({ plain: true });
   });
 
+  let blogCommentsList = blogList.map((blog) => {
+    commentList.map((comment) => {
+      //add and comment array for each object
+      if (!blog.comments) {
+        blog.comments = [];
+      }
+      //insert comments into array
+      if (comment.postId === blog.id) {
+        blog.comments.push(comment);
+      }
+    });
+    return blog;
+  });
+
+  console.log(commentList);
+
   if (req.session.isLoggedIn) {
     return res.render("home", {
       isLoggedIn: req.session.isLoggedIn,
-      data: blogList,
+      data: blogCommentsList,
       key: req.session.user.id,
     });
   } else {
     return res.render("home", {
       isLoggedIn: req.session.isLoggedIn,
-      data: blogList,
+      data: blogCommentsList,
     });
   }
 };
