@@ -115,10 +115,36 @@ const renderPostUpdatePage = async (req, res) => {
   }
 };
 
+const renderCommentUpdatePage = async (req, res) => {
+  console.log("comment update");
+  try {
+    const { isLoggedIn } = req.session;
+    const user = req.session.user;
+    const { id } = req.params;
+    const comment = await Comment.findByPk(id);
+
+    if (!comment) {
+      return res.render("Comment not  found!");
+    }
+    const viewModel = comment.get({ plain: true });
+
+    return res.render("editComment", {
+      isLoggedIn,
+      data: viewModel,
+      user,
+      id,
+    });
+  } catch (error) {
+    console.log(`${error.message}`);
+    res.render("error");
+  }
+};
+
 module.exports = {
   renderHomePage,
   renderLoginPage,
   renderSignupPage,
   renderDashboardPage,
   renderPostUpdatePage,
+  renderCommentUpdatePage,
 };

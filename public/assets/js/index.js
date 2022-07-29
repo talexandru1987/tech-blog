@@ -4,6 +4,7 @@ const logoutBtn = $("#logout-btn");
 const addPost = $("#add-post-form");
 const changePost = $("#post-container");
 const updatePost = $("#update-post-form");
+const updateComment = $("#update-comment-btn");
 
 const handleSignup = async (event) => {
   event.preventDefault();
@@ -185,6 +186,9 @@ const handlePostChange = async (event) => {
     } else {
       location.reload();
     }
+  } else if (event.target.id === "edit-comment-btn") {
+    const id = event.target.getAttribute("data-commentId");
+    window.location.replace(`/comment/${id}`);
   }
 };
 
@@ -223,6 +227,31 @@ const handlePostUpdate = async (event) => {
   }
 };
 
+const handleCommentUpdate = async (event) => {
+  event.preventDefault();
+  const commentText = $("#update-comment-input").val().trim();
+  const commentId = parseInt(event.target.getAttribute("data-id"));
+
+  const postContent = { commentText, commentId };
+
+  const options = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    redirect: "follow",
+    body: JSON.stringify(postContent),
+  };
+
+  const response = await fetch("/api/comments", options);
+
+  if (response.status !== 200) {
+    console.error("Comment update failed");
+  } else {
+    window.location.assign("/");
+  }
+};
+
 // add the event listeners
 signupForm.submit(handleSignup);
 loginForm.submit(handleLogin);
@@ -230,3 +259,4 @@ logoutBtn.click(handleLogout);
 addPost.submit(handleAddPost);
 changePost.click(handlePostChange);
 updatePost.click(handlePostUpdate);
+updateComment.click(handleCommentUpdate);

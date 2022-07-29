@@ -18,20 +18,21 @@
             </div>
 
             {{#if parent.isLoggedIn}}
+
               {{#if (isEqualTo parent.key userId)}}
                 <div class="d-flex justify-content-between">
                   <button
                     type="button"
                     class="btn btn-primary"
                     id="edit-comment-btn"
-                    data-postId=""
+                    data-commentId="{{id}}"
                   >Edit
                   </button>
                   <button
                     type="button"
                     class="btn btn-danger"
                     id="delete-comment-btn"
-                    data-postId=""
+                    data-commentId="{{id}}"
                   >Delete</button>
                 </div>
               {{/if}}

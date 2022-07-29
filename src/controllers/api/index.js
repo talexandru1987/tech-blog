@@ -75,9 +75,32 @@ const createComment = async (req, res) => {
   }
 };
 
+const updateCommentById = async (req, res) => {
+  try {
+    const { commentText, commentId } = req.body;
+
+    const post = await Comment.findByPk(commentId);
+
+    if (!post) {
+      return res.status(404).json({ message: "Comment not found" });
+    }
+
+    if (!commentText) {
+      return res.status(500).json({ message: "Comment cannot be blank" });
+    }
+
+    await Comment.update({ commentText }, { where: { id: commentId } });
+    return res.status(200).json({ message: "Comment updated" });
+  } catch (error) {
+    console.error(`ERROR | ${error.message}`);
+    return res.status(500).json(error);
+  }
+};
+
 module.exports = {
   updatePostById,
   deletePostById,
   createPost,
   createComment,
+  updateCommentById,
 };
