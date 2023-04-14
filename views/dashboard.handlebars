@@ -1,0 +1,36 @@
+
+  {{> privateNavBar }}
+
+<main class="container">
+    <section class="jumbotron text-center">
+    <h1 class="display-4 text-uppercase">Please find you posts bellow</h1>
+    
+
+    <div class="list-group">
+    <div id="post-container">
+    {{#each data}}
+      <!-- single post -->
+     <div class="list-group">
+  <div class="list-group-item list-group-item-action" aria-current="true">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">{{user.username}} </h5>
+      <small>{{formatDate updatedAt}}</small>
+    </div>
+    <p class="mb-1">{{description}}</p>
+      <div class="d-flex justify-content-between">
+        <button type="button" class="btn btn-primary" id="edit-btn" data-postId ="{{id}}">Edit </button>
+        <button type="button" class="btn btn-danger" id="delete-btn" data-postId ="{{id}}">Delete</button>
+      </div>
+      {{#each comments}}
+    {{> userComments parent=../../this}}
+    {{/each}}
+  </div>
+      </div>
+     {{/each}}
+    </div>           
+          
+      </div>
+
+  </section>
+  {{> addPost parent=../this }}
+</main>

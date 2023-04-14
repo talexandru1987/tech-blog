@@ -1,0 +1,35 @@
+{{> publicNavBar}}
+
+<main class="container">
+  <section class="mt-4 border p-3 rounded-2 bg-light">
+    <h2 class="text-center">Login</h2>
+    <hr />
+    <form class="mt-4" id="login-form">
+      <div class="mb-3">
+        <input
+          type="string"
+          class="form-control"
+          id="username"
+          placeholder="Enter username"
+        />
+      </div>
+      <div class="mb-3">
+        <input
+          type="password"
+          class="form-control"
+          id="password"
+          placeholder="Enter password"
+        />
+      </div>
+      <div id="login-error"></div>
+      <div class="mb-3 text-center">
+        <button type="submit" class="btn btn-primary">Login</button>
+      </div>
+      <div class="mb-3 text-center error-text">
+        Don't have an account.
+        <a href="/signup">Sign Up</a>
+        today!
+      </div>
+    </form>
+  </section>
+</main>

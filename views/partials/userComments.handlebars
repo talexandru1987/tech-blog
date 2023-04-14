@@ -1,0 +1,46 @@
+<div class="row d-flex justify-content-center">
+  <div class="col-md-8 col-lg-6">
+    <div class="card shadow-0 border" style="background-color: #f0f2f5;">
+      <div class="card-body p-4">
+
+        <div class="card mb-4">
+          <div class="card-body">
+            <p>{{commentText}}</p>
+
+            <div class="d-flex justify-content-between">
+              <div class="d-flex flex-row align-items-center">
+                <p class="small mb-0 ms-2">{{user.username}}</p>
+              </div>
+              <div class="d-flex flex-row align-items-center">
+                <p class="small text-muted mb-0">{{formatDate updatedAt}}</p>
+
+              </div>
+            </div>
+
+            {{#if parent.isLoggedIn}}
+
+              {{#if (isEqualTo parent.key userId)}}
+                <div class="d-flex justify-content-between">
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    id="edit-comment-btn"
+                    data-commentId="{{id}}"
+                  >Edit
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    id="delete-comment-btn"
+                    data-commentId="{{id}}"
+                  >Delete</button>
+                </div>
+              {{/if}}
+            {{/if}}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

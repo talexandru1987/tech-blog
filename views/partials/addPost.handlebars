@@ -1,0 +1,31 @@
+<section class="mt-4 border p-3 rounded-2 bg-light">
+  <h2 class="text-center">Add a new Post</h2>
+  <hr />
+  <form class="mt-4" id="add-post-form">
+    <div class="mb-3">
+      <textarea
+        type="text"
+        class="form-control"
+        id="title-input"
+        placeholder="Enter your post title"
+      ></textarea>
+      <textarea
+        type="text"
+        class="form-control"
+        id="text-input"
+        placeholder="Enter your post content..."
+      ></textarea>
+    </div>
+    <div class="mb-3 text-center text-danger error-text" id="add-post-container">
+
+    </div>
+    <div class="text-center">
+      <button
+        type="submit"
+        class="btn btn-primary"
+        id="add-post-btn"
+        data-id={{key}}
+      >Submit</button>
+    </div>
+  </form>
+</section>

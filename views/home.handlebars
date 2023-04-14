@@ -1,0 +1,49 @@
+{{#if isLoggedIn }}
+  {{> privateNavBar }}
+{{else}}
+  {{> publicNavBar }}
+{{/if}}
+
+<main class="container">
+  <section class="jumbotron text-center">
+    <h1 class="display-4 text-uppercase">Welcome to the Tech Blog. Please share your tech ideas in a post  </h1>
+    <div id="post-container">
+    {{#each data}}
+     <!-- single post -->
+            
+<div class="list-group">
+  <div class="list-group-item list-group-item-action" aria-current="true">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">{{user.username}} </h5>
+      <small>{{formatDate updatedAt}}</small>
+    </div>
+    <p class="mb-1">{{description}}</p>
+    {{#if ../isLoggedIn}}
+       {{#if (isEqualTo  ../key userId)}}
+      <div class="d-flex justify-content-between">
+        <button type="button" class="btn btn-primary" id="edit-btn" data-postId ="{{id}}">Edit </button>
+        <button type="button" class="btn btn-danger" id="delete-btn" data-postId ="{{id}}">Delete</button>
+      </div>
+      {{/if}}
+    {{/if}}
+    {{#each comments}}
+    {{> userComments parent=../../this}}
+    {{/each}}
+    
+  </div>
+  <div class="form-outline mb-4">
+          <form action="">
+            <input type="text" id="add-comment-input-{{id}}" class="form-control" placeholder="Type comment..." />
+            <button type="submit" class="btn btn-primary" id="add-comment-btn" data-userId ="{{userId}}" data-id="{{id}}">Submit</button>
+          </form>
+        </div>
+</div>
+     {{/each}}
+   </div>
+  </section>
+
+  {{#if isLoggedIn }}
+  {{> addPost parent=../this}}
+  {{/if}} 
+
+</main>
